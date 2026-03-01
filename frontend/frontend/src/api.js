@@ -1,5 +1,9 @@
 const TOKEN_STORAGE_KEY = 'covid_portal_jwt_token'
-const rawApiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+const defaultApiBaseUrl = import.meta.env.DEV
+  ? '/api'
+  : 'https://covid-19india-6.onrender.com'
+const rawApiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL?.trim() || defaultApiBaseUrl
 const API_BASE_URL = rawApiBaseUrl.replace(/\/$/, '')
 
 export const getStoredToken = () => localStorage.getItem(TOKEN_STORAGE_KEY)

@@ -10,15 +10,20 @@ const app = express()
 const PORT = process.env.PORT || 3000
 const configuredOrigins = (process.env.CORS_ORIGINS || '')
   .split(',')
-  .map(origin => origin.trim())
+  .map(origin => origin.trim().replace(/\/$/, ''))
   .filter(Boolean)
 
 const setCorsHeaders = (request, response) => {
-  const requestOrigin = request.headers.origin
+  const requestOrigin = (request.headers.origin || '').replace(/\/$/, '')
+  const allowAllOrigins =
+    configuredOrigins.length === 0 || configuredOrigins.includes('*')
+  const isOriginAllowed =
+    allowAllOrigins ||
+    (requestOrigin !== '' && configuredOrigins.includes(requestOrigin))
 
-  if (configuredOrigins.length === 0) {
+  if (allowAllOrigins) {
     response.header('Access-Control-Allow-Origin', '*')
-  } else if (requestOrigin && configuredOrigins.includes(requestOrigin)) {
+  } else if (isOriginAllowed) {
     response.header('Access-Control-Allow-Origin', requestOrigin)
     response.header('Vary', 'Origin')
   }
@@ -45,6 +50,10 @@ app.use((request, response, next) => {
 })
 
 app.use(express.json())
+
+app.get('/health', (request, response) => {
+  response.send({status: 'ok'})
+})
 
 let db = null
 
