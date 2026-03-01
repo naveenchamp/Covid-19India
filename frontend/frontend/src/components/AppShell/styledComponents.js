@@ -1,5 +1,5 @@
 import {NavLink} from 'react-router-dom'
-import styled from 'styled-components'
+import {styled} from 'styled-components'
 import {GhostButton} from '../shared/styledComponents'
 
 export const Shell = styled.div`

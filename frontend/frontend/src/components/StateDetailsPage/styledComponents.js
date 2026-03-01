@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom'
-import styled, {css} from 'styled-components'
+import {styled, css} from 'styled-components'
 import {
   GhostLinkStyle,
   MutedText,
