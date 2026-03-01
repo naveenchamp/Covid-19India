@@ -8,6 +8,41 @@ const jwt = require('jsonwebtoken')
 const dbPath = path.join(__dirname, 'covid19IndiaPortal.db')
 const app = express()
 const PORT = process.env.PORT || 3000
+const configuredOrigins = (process.env.CORS_ORIGINS || '')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean)
+
+const setCorsHeaders = (request, response) => {
+  const requestOrigin = request.headers.origin
+
+  if (configuredOrigins.length === 0) {
+    response.header('Access-Control-Allow-Origin', '*')
+  } else if (requestOrigin && configuredOrigins.includes(requestOrigin)) {
+    response.header('Access-Control-Allow-Origin', requestOrigin)
+    response.header('Vary', 'Origin')
+  }
+
+  response.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  )
+  response.header(
+    'Access-Control-Allow-Methods',
+    'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+  )
+}
+
+app.use((request, response, next) => {
+  setCorsHeaders(request, response)
+
+  if (request.method === 'OPTIONS') {
+    response.status(204).send()
+    return
+  }
+
+  next()
+})
 
 app.use(express.json())
 
