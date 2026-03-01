@@ -1,8 +1,6 @@
 import {createGlobalStyle} from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
-
   :root {
     --ink-900: #102433;
     --ink-700: #2f4555;
