@@ -27,6 +27,8 @@ npm run dev
 
 This repo includes a Render Blueprint: `render.yaml`.
 
+live link:https://covid-19india-7.onrender.com/
+
 ### Option 1 (recommended): Blueprint deploy
 
 1. In Render, click **New +** -> **Blueprint**.
